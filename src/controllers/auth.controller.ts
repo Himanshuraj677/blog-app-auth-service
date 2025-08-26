@@ -13,9 +13,9 @@ export const authcontroller = {
     const { user, token } = await authService.login(req.body);
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // ✅ only true in prod
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-      maxAge: 10 * 60 * 60 * 1000, // 15 mins
+      secure: true,
+      sameSite: "none",
+      maxAge: 10 * 60 * 60 * 1000, // 10 hr
     });
 
     res.json({ success: true, message: "Login successful", user });
@@ -51,7 +51,8 @@ export const authcontroller = {
     res.clearCookie("accessToken", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      sameSite: "none",
+      path: "/",
     });
 
     return res.json({
