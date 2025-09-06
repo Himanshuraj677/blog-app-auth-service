@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const asyncHandler_js_1 = require("../lib/asyncHandler.js");
+const profile_controller_js_1 = require("../controllers/profile.controller.js");
+const auth_middleware_js_1 = require("../middleware/auth.middleware.js");
+const router = (0, express_1.Router)();
+router.get('/:id', (0, asyncHandler_js_1.asyncHandler)(profile_controller_js_1.profileController.getProfile));
+router.put("/:id", auth_middleware_js_1.authMiddleware, (0, asyncHandler_js_1.asyncHandler)(profile_controller_js_1.profileController.updateProfile));
+exports.default = router;
