@@ -6,6 +6,6 @@ import { authMiddleware } from "../middleware/auth.middleware.js";
 const router = Router();
 
 router.get('/:id', asyncHandler(profileController.getProfile));
-router.put("/:id", authMiddleware, asyncHandler(profileController.updateProfile))
+router.put("/:id", authMiddleware({optional: false}), asyncHandler(profileController.updateProfile))
 
 export  default router;

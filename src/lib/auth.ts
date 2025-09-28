@@ -4,11 +4,20 @@ import { prisma } from "../config/db.js";
 import { admin } from "better-auth/plugins"
 import { ac, APP_ROLES } from "./permission.js";
 
-
 export const auth = betterAuth({
-  trustedOrigins: [process.env.FRONTEND_URL as string],
+  advanced: {
+    crossSubDomainCookies: {
+        enabled: true,
+        domain: process.env.COOKIE_DOMAIN,
+    },
+    defaultCookieAttributes: {
+      sameSite: "none",
+      secure: true,
+    }
+  },
+  trustedOrigins: (process.env.TRUSTED_ORIGINS as string).split(","),
   database: prismaAdapter(prisma, {
-    provider: "postgresql", // or "mysql", "postgresql", ...etc
+    provider: "postgresql",
   }),
   emailAndPassword: {
     enabled: true,
